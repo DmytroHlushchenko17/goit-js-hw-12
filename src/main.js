@@ -5,8 +5,6 @@ import { getImagesByQuery } from './js/pixabay-api.js';
 import {
   createGallery,
   clearGallery,
-  showLoader,
-  hideLoader,
   searchForm,
   loadMoreBtn,
   showLoadMoreButton,
@@ -46,8 +44,6 @@ export async function onSearchFormSubmit(event) {
   clearGallery();
   hideLoadMoreButton();
 
-  showLoader();
-
   try {
     const data = await getImagesByQuery(query, currentPage);
 
@@ -80,9 +76,6 @@ export async function onSearchFormSubmit(event) {
       color: 'red',
       position: 'bottomCenter',
     });
-    console.error(err);
-  } finally {
-    hideLoader();
   }
 }
 
@@ -92,7 +85,6 @@ async function onLoadMore(event) {
   if (loadMoreBtn) loadMoreBtn.disabled = true;
 
   currentPage += 1;
-  showLoader();
 
   try {
     const data = await getImagesByQuery(currentQuery, currentPage);
@@ -132,7 +124,6 @@ async function onLoadMore(event) {
       message: 'Error loading more images — please try again.',
     });
   } finally {
-    hideLoader();
     if (loadMoreBtn) loadMoreBtn.disabled = false;
   }
 }
