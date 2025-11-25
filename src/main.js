@@ -1,7 +1,7 @@
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
-import { getImagesByQuery } from './js/pixabay-api.js';
+import { fetchImages } from './js/pixabay-api.js';
 import {
   createGallery,
   clearGallery,
@@ -9,15 +9,9 @@ import {
   loadMoreBtn,
   showLoadMoreButton,
   hideLoadMoreButton,
+  showLoader,
+  hideLoader,
 } from './js/render-functions.js';
-
-if (!searchForm) {
-  console.warn('Search form not found (.form)');
-} else {
-  searchForm.addEventListener('submit', onSearchFormSubmit);
-}
-
-if (loadMoreBtn) loadMoreBtn.addEventListener('click', onLoadMore);
 
 let currentQuery = '';
 let currentPage = 1;
@@ -44,8 +38,9 @@ export async function onSearchFormSubmit(event) {
   clearGallery();
   hideLoadMoreButton();
 
+  showLoader();
   try {
-    const data = await getImagesByQuery(query, currentPage);
+    const data = await fetchImages(query, currentPage);
 
     if (!data || !Array.isArray(data.hits) || data.hits.length === 0) {
       clearGallery();
@@ -76,6 +71,8 @@ export async function onSearchFormSubmit(event) {
       color: 'red',
       position: 'bottomCenter',
     });
+  } finally {
+    hideLoader();
   }
 }
 
@@ -86,8 +83,9 @@ async function onLoadMore(event) {
 
   currentPage += 1;
 
+  showLoader();
   try {
-    const data = await getImagesByQuery(currentQuery, currentPage);
+    const data = await fetchImages(currentQuery, currentPage);
 
     if (!data || !Array.isArray(data.hits) || data.hits.length === 0) {
       hideLoadMoreButton();
@@ -125,5 +123,14 @@ async function onLoadMore(event) {
     });
   } finally {
     if (loadMoreBtn) loadMoreBtn.disabled = false;
+    hideLoader();
   }
 }
+
+if (!searchForm) {
+  console.warn('Search form not found (.form)');
+} else {
+  searchForm.addEventListener('submit', onSearchFormSubmit);
+}
+
+if (loadMoreBtn) loadMoreBtn.addEventListener('click', onLoadMore);

@@ -6,14 +6,21 @@ export const galleryEl = document.querySelector('.js-gallery');
 export const loadMoreBtn = document.querySelector('.js-load-more');
 
 export function clearGallery() {
-  if (galleryEl) galleryEl.innerHTML = '';
+  if (!galleryEl) return;
+  galleryEl.innerHTML = '';
 }
 
 export const loaderEl = document.querySelector('.loader');
 
-export const showLoader = () => loaderEl && loaderEl.classList.add('is-active');
-export const hideLoader = () =>
-  loaderEl && loaderEl.classList.remove('is-active');
+export function showLoader() {
+  if (!loaderEl) return;
+  loaderEl.classList.add('is-active');
+}
+
+export function hideLoader() {
+  if (!loaderEl) return;
+  loaderEl.classList.remove('is-active');
+}
 
 const simpleLightbox = new SimpleLightbox('.gallery a', {
   captionsData: 'alt',
@@ -54,8 +61,10 @@ export function createGallery(images) {
     .join('');
 
   galleryEl.insertAdjacentHTML('beforeend', markup);
-  if (simpleLightbox && typeof simpleLightbox.refresh === 'function')
+
+  if (simpleLightbox && typeof simpleLightbox.refresh === 'function') {
     simpleLightbox.refresh();
+  }
 }
 
 export function showLoadMoreButton() {

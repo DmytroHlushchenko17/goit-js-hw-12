@@ -90,10 +90,10 @@ span {
 }
 
 .loader {
-  color: #fff;
-  font-size: 10px;
-  width: 1em;
-  height: 1em;
+  color: #0b66ff;
+  font-size: 12px;
+  width: 1.6em;
+  height: 1.6em;
   border-radius: 50%;
   position: relative;
   text-indent: -9999em;
