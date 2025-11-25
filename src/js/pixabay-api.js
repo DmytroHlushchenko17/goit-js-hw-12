@@ -23,7 +23,7 @@ export async function getImagesByQuery(query, page = 1) {
   try {
     const { data } = await axios.get(BASE_URL, { params });
     return data;
-  } finally {
-    hideLoader();
+  } catch (error) {
+    throw error;
   }
 }
