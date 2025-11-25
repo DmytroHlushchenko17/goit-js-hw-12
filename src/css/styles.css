@@ -99,14 +99,23 @@ span {
   text-indent: -9999em;
   animation: mulShdSpin 1.3s infinite linear;
   transform: translateZ(0);
+  display: none;
 }
 
-.is-loading .loader {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 9999;
+.is-hidden {
+  display: none !important;
+}
+
+.js-load-more {
+  display: block;
+  margin: 0 auto 40px;
+}
+
+.loader.is-active {
+  display: block;
+  margin: 12px auto 40px;
+  position: static;
+  z-index: auto;
 }
 
 @keyframes mulShdSpin {

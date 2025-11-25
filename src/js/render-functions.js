@@ -3,15 +3,17 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 
 export const searchForm = document.querySelector('.form');
 export const galleryEl = document.querySelector('.js-gallery');
+export const loadMoreBtn = document.querySelector('.js-load-more');
 
 export function clearGallery() {
   if (galleryEl) galleryEl.innerHTML = '';
 }
 
-export const showLoader = () =>
-  document.body && document.body.classList.add('is-loading');
+export const loaderEl = document.querySelector('.loader');
+
+export const showLoader = () => loaderEl && loaderEl.classList.add('is-active');
 export const hideLoader = () =>
-  document.body && document.body.classList.remove('is-loading');
+  loaderEl && loaderEl.classList.remove('is-active');
 
 const simpleLightbox = new SimpleLightbox('.gallery a', {
   captionsData: 'alt',
@@ -51,7 +53,17 @@ export function createGallery(images) {
     })
     .join('');
 
-  galleryEl.innerHTML = markup;
+  galleryEl.insertAdjacentHTML('beforeend', markup);
   if (simpleLightbox && typeof simpleLightbox.refresh === 'function')
     simpleLightbox.refresh();
+}
+
+export function showLoadMoreButton() {
+  if (!loadMoreBtn) return;
+  loadMoreBtn.classList.remove('is-hidden');
+}
+
+export function hideLoadMoreButton() {
+  if (!loadMoreBtn) return;
+  loadMoreBtn.classList.add('is-hidden');
 }
